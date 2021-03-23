@@ -20,7 +20,7 @@ class Selector
      *
      * @var string
      */
-    protected $pattern = "/([\w-:\*>]*)(?:\#([\w-]+)|\.([\w-]+))?(?:\[@?(!?[\w-:]+)(?:([!*^$]?=)[\"']?(.*?)[\"']?)?\])?([\/, ]+)/is";
+    protected $pattern = "/([\w\-:\*>]*)(?:\#([\w\-]+)|\.([\w\-]+))?(?:\[@?(!?[\w\-:]+)(?:([!*^$]?=)[\"']?(.*?)[\"']?)?\])?([\/, ]+)/is";
 
     protected $selectors = [];
 
@@ -168,9 +168,13 @@ class Selector
     protected function seek(array $nodes, array $rule, array $options)
     {
         // XPath index
-        if (count($rule['tag']) > 0 &&
-            count($rule['key']) > 0 &&
-            is_numeric($rule['key'])
+        if (
+            is_array($rule)
+            && isset($rule['tag'])
+            && is_array($rule['tag'])
+            && count($rule['tag']) > 0
+            && count($rule['key']) > 0
+            && is_numeric($rule['key'])
         ) {
             $count = 0;
             /** @var AbstractNode $node */
